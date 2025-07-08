@@ -13,10 +13,18 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [linesCleared, setLinesCleared] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   const spawnNewPiece = useCallback(() => {
-    setCurrentPiece(createRandomPiece());
-  }, []);
+    if (gameOver) return;
+    
+    const newPiece = createRandomPiece();
+    if (isValidPosition(grid, newPiece, newPiece.position)) {
+      setCurrentPiece(newPiece);
+    } else {
+      setGameOver(true);
+    }
+  }, [grid, gameOver]);
 
   const lockPiece = useCallback(() => {
     if (!currentPiece) return;
@@ -47,7 +55,7 @@ export default function Home() {
   }, [currentPiece, grid, lockPiece]);
 
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (!currentPiece) return;
+    if (!currentPiece || gameOver) return;
 
     switch (event.key) {
       case 'ArrowLeft':
@@ -79,7 +87,7 @@ export default function Home() {
         }
         break;
     }
-  }, [currentPiece, grid, movePieceDown]);
+  }, [currentPiece, grid, movePieceDown, gameOver]);
 
   useEffect(() => {
     spawnNewPiece();
@@ -92,13 +100,15 @@ export default function Home() {
 
   // Game loop - automatic piece dropping
   useEffect(() => {
+    if (gameOver) return;
+    
     const dropInterval = Math.max(50, 1000 - (level - 1) * 50);
     const gameLoop = setInterval(() => {
       movePieceDown();
     }, dropInterval);
 
     return () => clearInterval(gameLoop);
-  }, [movePieceDown, level]);
+  }, [movePieceDown, level, gameOver]);
 
   return (
     <main className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
@@ -121,7 +131,14 @@ export default function Home() {
         </div>
         
         <div className="text-white text-center">
-          <p className="text-sm">Use arrow keys to move, space to rotate</p>
+          {gameOver ? (
+            <div className="text-red-400">
+              <p className="text-lg font-bold">Game Over!</p>
+              <p className="text-sm">Refresh to play again</p>
+            </div>
+          ) : (
+            <p className="text-sm">Use arrow keys to move, space to rotate</p>
+          )}
         </div>
       </div>
     </main>
