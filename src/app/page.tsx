@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import TetrisBoard3D from '@/components/TetrisBoard3D';
 import TetrisBoard from '@/components/TetrisBoard';
 import NextPiecePreview from '@/components/NextPiecePreview';
 import { createEmptyGrid, isValidPosition, placePiece, clearLines } from '@/lib/tetris-logic';
@@ -17,6 +18,7 @@ export default function Home() {
   const [linesCleared, setLinesCleared] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [lastDroppedPiece, setLastDroppedPiece] = useState<Piece | null>(null);
+  const [is3D, setIs3D] = useState(true);
 
   const resetGame = useCallback(() => {
     setGrid(createEmptyGrid());
@@ -150,11 +152,41 @@ export default function Home() {
         
         <div className="flex flex-row gap-4 lg:gap-8 items-start w-full justify-center max-w-4xl mx-auto">
           <div className="flex flex-col items-center relative">
-            <TetrisBoard 
-              grid={grid} 
-              currentPiece={currentPiece} 
-              lastDroppedPiece={lastDroppedPiece}
-            />
+            <div className="mb-4 flex gap-2">
+              <button
+                onClick={() => setIs3D(false)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  !is3D 
+                    ? 'bg-blue-500 text-white shadow-lg' 
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                2D View
+              </button>
+              <button
+                onClick={() => setIs3D(true)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  is3D 
+                    ? 'bg-blue-500 text-white shadow-lg' 
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                3D View
+              </button>
+            </div>
+            {is3D ? (
+              <TetrisBoard3D 
+                grid={grid} 
+                currentPiece={currentPiece} 
+                lastDroppedPiece={lastDroppedPiece}
+              />
+            ) : (
+              <TetrisBoard 
+                grid={grid} 
+                currentPiece={currentPiece} 
+                lastDroppedPiece={lastDroppedPiece}
+              />
+            )}
             
             {/* Game Over Overlay */}
             {gameOver && (
