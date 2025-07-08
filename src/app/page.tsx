@@ -137,23 +137,23 @@ export default function Home() {
           Tetris
         </h1>
         
-        <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start w-full justify-center">
+        <div className="flex flex-row gap-4 lg:gap-8 items-start w-full justify-center">
           <div className="flex flex-col items-center relative">
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
             
             {/* Game Over Overlay */}
             {gameOver && (
               <div className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center rounded-lg backdrop-blur-sm">
-                <div className="bg-gray-800 border-2 border-red-500 rounded-xl p-8 text-center shadow-2xl animate-pulse">
-                  <h2 className="text-3xl font-bold text-red-400 mb-6">Game Over!</h2>
-                  <div className="text-gray-300 mb-6 space-y-2">
-                    <p className="text-lg">Final Score: <span className="text-yellow-400 font-bold text-xl">{score}</span></p>
-                    <p className="text-lg">Level Reached: <span className="text-blue-400 font-bold text-xl">{level}</span></p>
-                    <p className="text-lg">Lines Cleared: <span className="text-green-400 font-bold text-xl">{linesCleared}</span></p>
+                <div className="bg-gray-800 border-2 border-red-500 rounded-xl p-6 lg:p-8 text-center shadow-2xl animate-pulse">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-red-400 mb-4 lg:mb-6">Game Over!</h2>
+                  <div className="text-gray-300 mb-4 lg:mb-6 space-y-1 lg:space-y-2">
+                    <p className="text-base lg:text-lg">Final Score: <span className="text-yellow-400 font-bold text-lg lg:text-xl">{score}</span></p>
+                    <p className="text-base lg:text-lg">Level Reached: <span className="text-blue-400 font-bold text-lg lg:text-xl">{level}</span></p>
+                    <p className="text-base lg:text-lg">Lines Cleared: <span className="text-green-400 font-bold text-lg lg:text-xl">{linesCleared}</span></p>
                   </div>
                   <button
                     onClick={resetGame}
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-2 px-6 lg:py-3 lg:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     Play Again
                   </button>
@@ -162,10 +162,10 @@ export default function Home() {
             )}
           </div>
           
-          <div className="text-white flex flex-col gap-4">
-            <div className="bg-gray-700 p-4 lg:p-6 rounded-xl shadow-xl border border-gray-600">
-              <h2 className="text-xl lg:text-2xl font-bold mb-4 lg:mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Game Info</h2>
-              <div className="space-y-2 lg:space-y-3 text-base lg:text-lg">
+          <div className="text-white flex flex-col gap-3 lg:gap-4 min-w-0">
+            <div className="bg-gray-700 p-3 lg:p-6 rounded-xl shadow-xl border border-gray-600">
+              <h2 className="text-lg lg:text-2xl font-bold mb-3 lg:mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Game Info</h2>
+              <div className="space-y-1 lg:space-y-3 text-sm lg:text-lg">
                 <p className="flex justify-between">
                   <span>Score:</span> 
                   <span className="font-bold text-yellow-400">{score.toLocaleString()}</span>

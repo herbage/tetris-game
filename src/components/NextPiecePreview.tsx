@@ -22,14 +22,14 @@ export default function NextPiecePreview({ piece }: NextPiecePreviewProps) {
   };
 
   return (
-    <div className="bg-gray-700 p-4 rounded-lg shadow-lg border border-gray-600">
-      <h3 className="text-white text-lg font-semibold mb-3">Next</h3>
+    <div className="bg-gray-700 p-3 lg:p-4 rounded-lg shadow-lg border border-gray-600">
+      <h3 className="text-white text-base lg:text-lg font-semibold mb-2 lg:mb-3">Next</h3>
       <div className="grid gap-0.5 justify-center" style={{ gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)` }}>
         {piece.shape.map((row, y) =>
           row.map((cell, x) => (
             <div
               key={`${y}-${x}`}
-              className={`w-6 h-6 ${getCellColor(cell)} border border-gray-600 transition-all duration-200 ${
+              className={`w-4 h-4 lg:w-6 lg:h-6 ${getCellColor(cell)} border border-gray-600 transition-all duration-200 ${
                 cell !== 0 ? 'shadow-sm' : ''
               }`}
               style={{
