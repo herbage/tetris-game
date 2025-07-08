@@ -93,12 +93,15 @@ export default function Home() {
   }, [currentPiece, grid, movePieceDown, gameOver]);
 
   useEffect(() => {
-    // Initialize the game with first piece and next piece
-    if (!currentPiece && !nextPiece) {
+    // Initialize the game once on mount
+    if (!nextPiece) {
       setNextPiece(createRandomPiece());
     }
-    spawnNewPiece();
-  }, [spawnNewPiece, currentPiece, nextPiece]);
+    if (!currentPiece) {
+      spawnNewPiece();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array for initialization only
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
