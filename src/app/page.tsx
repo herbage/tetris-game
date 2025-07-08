@@ -137,7 +137,7 @@ export default function Home() {
           Tetris
         </h1>
         
-        <div className="flex flex-row gap-4 lg:gap-8 items-start w-full justify-center">
+        <div className="flex flex-row gap-4 lg:gap-8 items-start w-full justify-center max-w-4xl mx-auto">
           <div className="flex flex-col items-center relative">
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
             
