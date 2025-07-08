@@ -16,6 +16,7 @@ export default function Home() {
   const [level, setLevel] = useState(1);
   const [linesCleared, setLinesCleared] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [lastDroppedPiece, setLastDroppedPiece] = useState<Piece | null>(null);
 
   const resetGame = useCallback(() => {
     setGrid(createEmptyGrid());
@@ -25,6 +26,7 @@ export default function Home() {
     setLevel(1);
     setLinesCleared(0);
     setGameOver(false);
+    setLastDroppedPiece(null);
   }, []);
 
   const spawnNewPiece = useCallback(() => {
@@ -42,6 +44,9 @@ export default function Home() {
   const lockPiece = useCallback(() => {
     if (!currentPiece) return;
     
+    // Store the piece that's about to be locked for the drop effect
+    setLastDroppedPiece(currentPiece);
+    
     const newGrid = placePiece(grid, currentPiece);
     const { newGrid: clearedGrid, linesCleared: cleared } = clearLines(newGrid);
     
@@ -53,6 +58,12 @@ export default function Home() {
       return newLinesCleared;
     });
     setScore(prev => prev + cleared * 100 * level);
+    
+    // Clear the lastDroppedPiece after a short delay to allow the effect to trigger
+    setTimeout(() => {
+      setLastDroppedPiece(null);
+    }, 100);
+    
     spawnNewPiece();
   }, [currentPiece, grid, level, spawnNewPiece]);
 
@@ -139,7 +150,11 @@ export default function Home() {
         
         <div className="flex flex-row gap-4 lg:gap-8 items-start w-full justify-center max-w-4xl mx-auto">
           <div className="flex flex-col items-center relative">
-            <TetrisBoard grid={grid} currentPiece={currentPiece} />
+            <TetrisBoard 
+              grid={grid} 
+              currentPiece={currentPiece} 
+              lastDroppedPiece={lastDroppedPiece}
+            />
             
             {/* Game Over Overlay */}
             {gameOver && (

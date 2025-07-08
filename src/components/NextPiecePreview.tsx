@@ -24,20 +24,24 @@ export default function NextPiecePreview({ piece }: NextPiecePreviewProps) {
   return (
     <div className="bg-gray-700 p-3 lg:p-4 rounded-lg shadow-lg border border-gray-600">
       <h3 className="text-white text-base lg:text-lg font-semibold mb-2 lg:mb-3">Next</h3>
-      <div className="grid gap-0 justify-center" style={{ gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)` }}>
-        {piece.shape.map((row, y) =>
-          row.map((cell, x) => (
-            <div
-              key={`${y}-${x}`}
-              className={`w-4 h-4 lg:w-6 lg:h-6 ${getCellColor(cell)} border border-gray-600 transition-all duration-200 ${
-                cell !== 0 ? 'shadow-sm' : ''
-              }`}
-              style={{
-                boxShadow: cell !== 0 ? 'inset 0 1px 2px rgba(255,255,255,0.1)' : undefined
-              }}
-            />
-          ))
-        )}
+      <div className="flex justify-center items-center min-h-[60px] lg:min-h-[80px]">
+        <div className="grid gap-0" style={{ gridTemplateColumns: `repeat(${piece.shape[0].length}, 1fr)` }}>
+          {piece.shape.map((row, y) =>
+            row.map((cell, x) => (
+              cell !== 0 ? (
+                <div
+                  key={`${y}-${x}`}
+                  className={`w-4 h-4 lg:w-6 lg:h-6 ${getCellColor(cell)} border border-gray-600 transition-all duration-200 shadow-sm`}
+                  style={{
+                    boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.1)'
+                  }}
+                />
+              ) : (
+                <div key={`${y}-${x}`} className="w-4 h-4 lg:w-6 lg:h-6" />
+              )
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
