@@ -13,12 +13,17 @@ export default function TetrisBoard({ grid, currentPiece }: TetrisBoardProps) {
   const displayGrid = currentPiece ? placePiece(grid, currentPiece) : grid;
   
   return (
-    <div className="grid grid-cols-10 gap-0 border-2 border-gray-600 bg-gray-900 p-2">
+    <div className="grid grid-cols-10 gap-0 border-4 border-gray-600 bg-gray-900 p-3 rounded-lg shadow-2xl">
       {displayGrid.map((row, y) =>
         row.map((cell, x) => (
           <div
             key={`${y}-${x}`}
-            className={`w-6 h-6 border border-gray-700 ${COLORS[cell]}`}
+            className={`w-7 h-7 border border-gray-600 ${COLORS[cell]} transition-all duration-150 ${
+              cell !== 0 ? 'shadow-sm' : ''
+            }`}
+            style={{
+              boxShadow: cell !== 0 ? 'inset 0 1px 2px rgba(255,255,255,0.1)' : undefined
+            }}
           />
         ))
       )}

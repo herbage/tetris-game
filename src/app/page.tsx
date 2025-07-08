@@ -131,27 +131,29 @@ export default function Home() {
   }, [movePieceDown, level, gameOver]);
 
   return (
-    <main className="min-h-screen bg-gray-800 flex items-center justify-center p-4 relative">
-      <div className="flex flex-col items-center gap-4">
-        <h1 className="text-4xl font-bold text-white mb-6">Tetris</h1>
+    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4 relative">
+      <div className="flex flex-col items-center gap-6 max-w-6xl w-full">
+        <h1 className="text-5xl font-bold text-white mb-6 text-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          Tetris
+        </h1>
         
-        <div className="flex gap-8">
-          <div className="flex flex-col items-center relative">
+        <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
+          <div className="flex flex-col items-center relative order-2 lg:order-1">
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
             
             {/* Game Over Overlay */}
             {gameOver && (
-              <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-lg">
-                <div className="bg-gray-800 border-2 border-red-500 rounded-lg p-6 text-center">
-                  <h2 className="text-2xl font-bold text-red-400 mb-4">Game Over!</h2>
-                  <div className="text-gray-300 mb-4 space-y-1">
-                    <p>Final Score: <span className="text-yellow-400 font-semibold">{score}</span></p>
-                    <p>Level Reached: <span className="text-blue-400 font-semibold">{level}</span></p>
-                    <p>Lines Cleared: <span className="text-green-400 font-semibold">{linesCleared}</span></p>
+              <div className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center rounded-lg backdrop-blur-sm">
+                <div className="bg-gray-800 border-2 border-red-500 rounded-xl p-8 text-center shadow-2xl animate-pulse">
+                  <h2 className="text-3xl font-bold text-red-400 mb-6">Game Over!</h2>
+                  <div className="text-gray-300 mb-6 space-y-2">
+                    <p className="text-lg">Final Score: <span className="text-yellow-400 font-bold text-xl">{score}</span></p>
+                    <p className="text-lg">Level Reached: <span className="text-blue-400 font-bold text-xl">{level}</span></p>
+                    <p className="text-lg">Lines Cleared: <span className="text-green-400 font-bold text-xl">{linesCleared}</span></p>
                   </div>
                   <button
                     onClick={resetGame}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     Play Again
                   </button>
@@ -160,19 +162,33 @@ export default function Home() {
             )}
           </div>
           
-          <div className="text-white flex flex-col gap-4">
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <h2 className="text-xl font-semibold mb-4">Game Info</h2>
-              <p>Score: {score}</p>
-              <p>Level: {level}</p>
-              <p>Lines: {linesCleared}</p>
+          <div className="text-white flex flex-col gap-4 order-1 lg:order-2">
+            <div className="bg-gray-700 p-6 rounded-xl shadow-xl border border-gray-600">
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Game Info</h2>
+              <div className="space-y-3 text-lg">
+                <p className="flex justify-between">
+                  <span>Score:</span> 
+                  <span className="font-bold text-yellow-400">{score.toLocaleString()}</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>Level:</span> 
+                  <span className="font-bold text-blue-400">{level}</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>Lines:</span> 
+                  <span className="font-bold text-green-400">{linesCleared}</span>
+                </p>
+              </div>
             </div>
             <NextPiecePreview piece={nextPiece} />
           </div>
         </div>
         
-        <div className="text-white text-center">
-          <p className="text-sm">Use arrow keys to move, space to rotate</p>
+        <div className="text-white text-center mt-4">
+          <p className="text-sm md:text-base opacity-80">
+            Use <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">↑ ↓ ← →</kbd> to move, 
+            <kbd className="px-2 py-1 bg-gray-700 rounded text-xs ml-2">Space</kbd> to rotate
+          </p>
         </div>
       </div>
     </main>
