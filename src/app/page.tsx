@@ -17,6 +17,16 @@ export default function Home() {
   const [linesCleared, setLinesCleared] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
+  const resetGame = useCallback(() => {
+    setGrid(createEmptyGrid());
+    setCurrentPiece(null);
+    setNextPiece(null);
+    setScore(0);
+    setLevel(1);
+    setLinesCleared(0);
+    setGameOver(false);
+  }, []);
+
   const spawnNewPiece = useCallback(() => {
     if (gameOver) return;
     
@@ -121,13 +131,33 @@ export default function Home() {
   }, [movePieceDown, level, gameOver]);
 
   return (
-    <main className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-gray-800 flex items-center justify-center p-4 relative">
       <div className="flex flex-col items-center gap-4">
         <h1 className="text-4xl font-bold text-white mb-6">Tetris</h1>
         
         <div className="flex gap-8">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center relative">
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
+            
+            {/* Game Over Overlay */}
+            {gameOver && (
+              <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-lg">
+                <div className="bg-gray-800 border-2 border-red-500 rounded-lg p-6 text-center">
+                  <h2 className="text-2xl font-bold text-red-400 mb-4">Game Over!</h2>
+                  <div className="text-gray-300 mb-4 space-y-1">
+                    <p>Final Score: <span className="text-yellow-400 font-semibold">{score}</span></p>
+                    <p>Level Reached: <span className="text-blue-400 font-semibold">{level}</span></p>
+                    <p>Lines Cleared: <span className="text-green-400 font-semibold">{linesCleared}</span></p>
+                  </div>
+                  <button
+                    onClick={resetGame}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors"
+                  >
+                    Play Again
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="text-white flex flex-col gap-4">
@@ -142,14 +172,7 @@ export default function Home() {
         </div>
         
         <div className="text-white text-center">
-          {gameOver ? (
-            <div className="text-red-400">
-              <p className="text-lg font-bold">Game Over!</p>
-              <p className="text-sm">Refresh to play again</p>
-            </div>
-          ) : (
-            <p className="text-sm">Use arrow keys to move, space to rotate</p>
-          )}
+          <p className="text-sm">Use arrow keys to move, space to rotate</p>
         </div>
       </div>
     </main>
