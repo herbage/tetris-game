@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import TetrisBoard from '@/components/TetrisBoard';
+import NextPiecePreview from '@/components/NextPiecePreview';
 import { createEmptyGrid, isValidPosition, placePiece, clearLines } from '@/lib/tetris-logic';
 import { createRandomPiece, movePiece } from '@/lib/tetris-pieces';
 import { rotatePiece } from '@/lib/tetris-logic';
@@ -10,6 +11,7 @@ import { Grid, Piece } from '@/lib/tetris-types';
 export default function Home() {
   const [grid, setGrid] = useState<Grid>(createEmptyGrid);
   const [currentPiece, setCurrentPiece] = useState<Piece | null>(null);
+  const [nextPiece, setNextPiece] = useState<Piece | null>(null);
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [linesCleared, setLinesCleared] = useState(0);
@@ -18,13 +20,14 @@ export default function Home() {
   const spawnNewPiece = useCallback(() => {
     if (gameOver) return;
     
-    const newPiece = createRandomPiece();
+    const newPiece = nextPiece || createRandomPiece();
     if (isValidPosition(grid, newPiece, newPiece.position)) {
       setCurrentPiece(newPiece);
+      setNextPiece(createRandomPiece());
     } else {
       setGameOver(true);
     }
-  }, [grid, gameOver]);
+  }, [grid, gameOver, nextPiece]);
 
   const lockPiece = useCallback(() => {
     if (!currentPiece) return;
@@ -90,8 +93,12 @@ export default function Home() {
   }, [currentPiece, grid, movePieceDown, gameOver]);
 
   useEffect(() => {
+    // Initialize the game with first piece and next piece
+    if (!currentPiece && !nextPiece) {
+      setNextPiece(createRandomPiece());
+    }
     spawnNewPiece();
-  }, [spawnNewPiece]);
+  }, [spawnNewPiece, currentPiece, nextPiece]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -120,13 +127,14 @@ export default function Home() {
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
           </div>
           
-          <div className="text-white">
+          <div className="text-white flex flex-col gap-4">
             <div className="bg-gray-700 p-4 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Game Info</h2>
               <p>Score: {score}</p>
               <p>Level: {level}</p>
               <p>Lines: {linesCleared}</p>
             </div>
+            <NextPiecePreview piece={nextPiece} />
           </div>
         </div>
         
