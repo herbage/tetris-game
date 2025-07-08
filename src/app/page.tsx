@@ -25,7 +25,12 @@ export default function Home() {
     const { newGrid: clearedGrid, linesCleared: cleared } = clearLines(newGrid);
     
     setGrid(clearedGrid);
-    setLinesCleared(prev => prev + cleared);
+    setLinesCleared(prev => {
+      const newLinesCleared = prev + cleared;
+      const newLevel = Math.floor(newLinesCleared / 10) + 1;
+      setLevel(newLevel);
+      return newLinesCleared;
+    });
     setScore(prev => prev + cleared * 100 * level);
     spawnNewPiece();
   }, [currentPiece, grid, level, spawnNewPiece]);
@@ -84,6 +89,16 @@ export default function Home() {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleKeyPress]);
+
+  // Game loop - automatic piece dropping
+  useEffect(() => {
+    const dropInterval = Math.max(50, 1000 - (level - 1) * 50);
+    const gameLoop = setInterval(() => {
+      movePieceDown();
+    }, dropInterval);
+
+    return () => clearInterval(gameLoop);
+  }, [movePieceDown, level]);
 
   return (
     <main className="min-h-screen bg-gray-800 flex items-center justify-center p-4">

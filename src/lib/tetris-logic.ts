@@ -1,4 +1,4 @@
-import { Grid, Piece, Position, CellState, BOARD_WIDTH, BOARD_HEIGHT } from './tetris-types';
+import { Grid, Piece, Position, BOARD_WIDTH, BOARD_HEIGHT } from './tetris-types';
 
 export function createEmptyGrid(): Grid {
   return Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(0));

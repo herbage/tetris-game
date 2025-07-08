@@ -51,8 +51,18 @@ npm run lint
 ## Next Steps
 
 The following features are planned but not yet implemented:
-- Game loop with automatic piece dropping
-- Game over detection and restart functionality
-- Next piece preview
-- Improved styling and animations
-- Level progression with increasing difficulty
+
+**Priority: Medium**
+- Implement game state management (score, level, game over)
+- Add game loop with timing and increasing difficulty
+- Create UI for score, level, next piece preview
+
+**Priority: Low**
+- Add game over screen and restart functionality
+- Style the app with responsive design and animations
+
+**Implementation Notes:**
+- Game loop should use `setInterval` or `requestAnimationFrame` for automatic piece dropping
+- Game over occurs when new piece cannot be placed at spawn position
+- Level should increase every 10 lines cleared, with faster drop speed
+- Next piece preview can reuse existing piece rendering logic
