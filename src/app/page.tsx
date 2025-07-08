@@ -137,8 +137,8 @@ export default function Home() {
           Tetris
         </h1>
         
-        <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
-          <div className="flex flex-col items-center relative order-2 lg:order-1">
+        <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start w-full justify-center">
+          <div className="flex flex-col items-center relative">
             <TetrisBoard grid={grid} currentPiece={currentPiece} />
             
             {/* Game Over Overlay */}
@@ -162,10 +162,10 @@ export default function Home() {
             )}
           </div>
           
-          <div className="text-white flex flex-col gap-4 order-1 lg:order-2">
-            <div className="bg-gray-700 p-6 rounded-xl shadow-xl border border-gray-600">
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Game Info</h2>
-              <div className="space-y-3 text-lg">
+          <div className="text-white flex flex-col gap-4">
+            <div className="bg-gray-700 p-4 lg:p-6 rounded-xl shadow-xl border border-gray-600">
+              <h2 className="text-xl lg:text-2xl font-bold mb-4 lg:mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Game Info</h2>
+              <div className="space-y-2 lg:space-y-3 text-base lg:text-lg">
                 <p className="flex justify-between">
                   <span>Score:</span> 
                   <span className="font-bold text-yellow-400">{score.toLocaleString()}</span>
