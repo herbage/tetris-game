@@ -8,9 +8,10 @@ interface TetrisBoardProps {
   grid: Grid;
   currentPiece: Piece | null;
   lastDroppedPiece: Piece | null;
+  clearedLines?: number[];
 }
 
-export default function TetrisBoard({ grid, currentPiece, lastDroppedPiece }: TetrisBoardProps) {
+export default function TetrisBoard({ grid, currentPiece, lastDroppedPiece, clearedLines = [] }: TetrisBoardProps) {
   const displayGrid = currentPiece ? placePiece(grid, currentPiece) : grid;
   const [highlightedPiece, setHighlightedPiece] = useState<Piece | null>(null);
 
@@ -51,13 +52,14 @@ export default function TetrisBoard({ grid, currentPiece, lastDroppedPiece }: Te
         {displayGrid.map((row, y) =>
           row.map((cell, x) => {
             const isGlowing = isPartOfHighlightedPiece(x, y);
+            const isLineClear = clearedLines.includes(y);
             
             return (
               <div
                 key={`${y}-${x}`}
                 className={`w-5 h-5 lg:w-7 lg:h-7 border border-gray-600 ${COLORS[cell]} transition-all duration-150 ${
                   cell !== 0 ? 'shadow-sm' : ''
-                } ${isGlowing ? 'animate-glow' : ''}`}
+                } ${isGlowing ? 'animate-glow' : ''} ${isLineClear ? 'animate-line-clear' : ''}`}
                 style={{
                   boxShadow: cell !== 0 ? 'inset 0 1px 2px rgba(255,255,255,0.1)' : undefined
                 }}

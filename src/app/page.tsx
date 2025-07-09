@@ -19,6 +19,7 @@ export default function Home() {
   const [gameOver, setGameOver] = useState(false);
   const [lastDroppedPiece, setLastDroppedPiece] = useState<Piece | null>(null);
   const [is3D, setIs3D] = useState(true);
+  const [clearedLines, setClearedLines] = useState<number[]>([]);
 
   const resetGame = useCallback(() => {
     setGrid(createEmptyGrid());
@@ -29,6 +30,7 @@ export default function Home() {
     setLinesCleared(0);
     setGameOver(false);
     setLastDroppedPiece(null);
+    setClearedLines([]);
   }, []);
 
   const spawnNewPiece = useCallback(() => {
@@ -50,7 +52,14 @@ export default function Home() {
     setLastDroppedPiece(currentPiece);
     
     const newGrid = placePiece(grid, currentPiece);
-    const { newGrid: clearedGrid, linesCleared: cleared } = clearLines(newGrid);
+    const { newGrid: clearedGrid, linesCleared: cleared, clearedLineIndices } = clearLines(newGrid);
+    
+    // Show line clear effects if lines were cleared
+    if (clearedLineIndices.length > 0) {
+      setClearedLines(clearedLineIndices);
+      // Clear the effect after animation
+      setTimeout(() => setClearedLines([]), 500);
+    }
     
     setGrid(clearedGrid);
     setLinesCleared(prev => {
@@ -185,6 +194,7 @@ export default function Home() {
                 grid={grid} 
                 currentPiece={currentPiece} 
                 lastDroppedPiece={lastDroppedPiece}
+                clearedLines={clearedLines}
               />
             )}
             

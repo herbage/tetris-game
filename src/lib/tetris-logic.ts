@@ -42,15 +42,23 @@ export function placePiece(grid: Grid, piece: Piece): Grid {
   return newGrid;
 }
 
-export function clearLines(grid: Grid): { newGrid: Grid; linesCleared: number } {
-  const newGrid = grid.filter(row => row.some(cell => cell === 0));
+export function clearLines(grid: Grid): { newGrid: Grid; linesCleared: number; clearedLineIndices: number[] } {
+  const clearedLineIndices: number[] = [];
+  const newGrid = grid.filter((row, index) => {
+    const shouldClear = row.every(cell => cell !== 0);
+    if (shouldClear) {
+      clearedLineIndices.push(index);
+    }
+    return !shouldClear;
+  });
+  
   const linesCleared = BOARD_HEIGHT - newGrid.length;
   
   while (newGrid.length < BOARD_HEIGHT) {
     newGrid.unshift(Array(BOARD_WIDTH).fill(0));
   }
   
-  return { newGrid, linesCleared };
+  return { newGrid, linesCleared, clearedLineIndices };
 }
 
 export function rotatePiece(piece: Piece): Piece {
